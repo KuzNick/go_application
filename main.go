@@ -2,14 +2,20 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"go_apllication/configs"
 	"go_apllication/internal/hello"
+	"net/http"
 )
 
 
 
 
 func main() {
+	/*
+		Прокидываем получаение конфига из модуля Configs
+	*/
+	conf := configs.LoadConfig()
+
 	/*
 		Собстенный ServeMux
 	*/
