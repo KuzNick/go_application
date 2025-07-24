@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"go_apllication/internal/hello"
 )
 
 
@@ -14,7 +13,7 @@ func main() {
 		Собстенный ServeMux
 	*/
 	router := http.NewServeMux()
-	hello.NewHelloHandler(router)
+	NewHelloHandler(router)
 
 	server := http.Server{
 		Addr:    ":8081",
