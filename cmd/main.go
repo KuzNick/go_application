@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"go_apllication/configs"
+	"go_apllication/internal/auth"
 	"net/http"
 )
 
@@ -10,10 +12,19 @@ import (
 
 func main() {
 	/*
+		Прокидываем получение конфига из модуля Configs
+	*/
+	conf := configs.LoadConfig()
+	/*
 		Собстенный ServeMux
 	*/
 	router := http.NewServeMux()
-	NewHelloHandler(router)
+	/*
+		Передаём конфигурацию явно
+	*/
+	auth.NewAuthHandler(router, auth.AuthHandlerDeps{
+		Config: conf,
+	})
 
 	server := http.Server{
 		Addr:    ":8081",

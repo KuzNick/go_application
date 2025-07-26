@@ -7,9 +7,6 @@ import (
 	"net/http"
 )
 
-
-
-
 func main() {
 	/*
 		Прокидываем получаение конфига из модуля Configs

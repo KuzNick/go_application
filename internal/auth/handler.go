@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"encoding/json"
 	"fmt"
 	"go_apllication/configs"
 	"net/http"
@@ -37,6 +38,21 @@ func (handler *AuthHandler) Login() http.HandlerFunc {
 	return  func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(handler.Config.Auth.Secret)
 		fmt.Println("Login")
+		res := LoginResponse {
+			Token: "123",
+		}
+		/*
+			Задаём формат ответа Json
+		*/
+		w.Header().Set("Content-Type", "application/json")
+		/*
+			Задаём статус код ответа
+		*/
+		w.WriteHeader(201)
+		/*
+			Закодировали в http.ResponseWriter наш ответ из переменной res
+		*/
+		json.NewEncoder(w).Encode(res)
 	}
 }
 
