@@ -2,17 +2,25 @@ package auth
 
 import (
 	"fmt"
+	"go_apllication/configs"
 	"net/http"
 )
 
-type AuthHandler struct{}
+type AuthHandler struct{
+	*configs.Config
+}
 
+type AuthHandlerDeps struct{
+	*configs.Config
+}
 
-func NewAuthHandler(router *http.ServeMux) {
+func NewAuthHandler(router *http.ServeMux, deps AuthHandlerDeps) {
 	/*
 		Создали инстанс для AuthHandler
 	*/
-	handler := &AuthHandler{}
+	handler := &AuthHandler{
+		Config: deps.Config,
+	}
 	/*
 		Обработчик
 	*/
@@ -27,6 +35,7 @@ func (handler *AuthHandler) Login() http.HandlerFunc {
 		req *http.Request - указатель на hhtp request (запрос, который пришёл изначально)
 	*/
 	return  func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(handler.Config.Auth.Secret)
 		fmt.Println("Login")
 	}
 }

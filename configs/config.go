@@ -8,10 +8,15 @@ import (
 
 type Config struct {
 	Db DbConfig
+	Auth AuthConfig
 }
 
 type DbConfig struct {
 	Dsn string
+}
+
+type AuthConfig struct {
+	Secret string
 }
 
 func LoadConfig() *Config {
@@ -19,9 +24,13 @@ func LoadConfig() *Config {
 	if err != nil{
 		log.Println("Error loading .env file, using default config")
 	}
+	
 	return &Config{
 		Db: DbConfig{
 			os.Getenv("DSN"),
+		},
+		Auth: AuthConfig{
+			os.Getenv("TOKEN"),
 		},
 	}
 }
