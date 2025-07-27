@@ -50,6 +50,19 @@ func (handler *AuthHandler) Login() http.HandlerFunc {
 		*/
 		if err != nil {
 			res.Json(w, err.Error(), 402)
+			return
+		}
+
+		/*
+			Блоки с простейшей валидацией полей Email и Password
+		*/
+		if payload.Email == "" {
+			res.Json(w, "Email required", 402)
+			return
+		}
+		if payload.Password == "" {
+			res.Json(w, "Password required", 402)
+			return
 		}
 		fmt.Println(payload)
 		data := LoginResponse{
