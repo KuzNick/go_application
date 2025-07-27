@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"encoding/json"
 	"fmt"
 	"go_apllication/configs"
 	"go_apllication/pkg/res"
@@ -35,9 +36,22 @@ func (handler *AuthHandler) Login() http.HandlerFunc {
 		w http.ResponseWriter - куда будем писать ответ
 		req *http.Request - указатель на hhtp request (запрос, который пришёл изначально)
 	*/
-	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(handler.Config.Auth.Secret)
-		fmt.Println("Login")
+	return func(w http.ResponseWriter, req *http.Request) {
+		/*
+			Объявляем структуру с телом запроса
+		*/
+		var payload LoginRequest
+		/*
+			Мы декодируем полученный body (req.Body) и передаём его в итоговый payload
+		*/
+		err := json.NewDecoder(req.Body).Decode(&payload)
+		/*
+			Проверяем на возможные ошибки, например тело не в формате Json
+		*/
+		if err != nil {
+			res.Json(w, err.Error(), 402)
+		}
+		fmt.Println(payload)
 		data := LoginResponse{
 			Token: "123",
 		}
