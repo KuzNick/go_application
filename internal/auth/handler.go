@@ -38,27 +38,7 @@ func (handler *AuthHandler) Login() http.HandlerFunc {
 		req *http.Request - указатель на hhtp request (запрос, который пришёл изначально)
 	*/
 	return func(w http.ResponseWriter, req *http.Request) {
-		/*
-			Объявляем структуру с телом запроса
-		*/
-		var payload LoginRequest
-		/*
-			Мы декодируем полученный body (req.Body) и передаём его в итоговый payload
-		*/
-		err := json.NewDecoder(req.Body).Decode(&payload)
-		/*
-			Проверяем на возможные ошибки, например тело не в формате Json
-		*/
-		if err != nil {
-			res.Json(w, err.Error(), 402)
-			return
-		}
-		validate := validator.New()
-		err = validate.Struct(payload)
-		if err != nil {
-			res.Json(w, err.Error(), 402)
-			return 
-		}
+		
 		fmt.Println(payload)
 		data := LoginResponse{
 			Token: "123",
