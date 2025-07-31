@@ -6,6 +6,8 @@ import (
 	"go_apllication/configs"
 	"go_apllication/pkg/res"
 	"net/http"
+	"net/mail"
+	"regexp"
 )
 
 type AuthHandler struct {
@@ -53,6 +55,24 @@ func (handler *AuthHandler) Login() http.HandlerFunc {
 			return
 		}
 
+		match, _ := regexp.MatchString(`[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}`, payload.Email)
+		if !match {
+			res.Json(w, "Wrong email", 402)
+			return
+		}
+		/* 
+			Альтернативный вариант через встроенную библиотеку mail
+		*/
+		//mailAddress, _ := mail.ParseAddress(payload.Email)
+
+		/* 
+			Альтернативный вариант через компиляцию регулярного выражения, а потом уже сравнения
+		*/
+		// reg, _ := regexp.Compile(`[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}`)
+		// if !reg.MatchString(payload.Email) {
+		// 	res.Json(w, "Wrong email", 402)
+		// 	return
+		// }
 		/*
 			Блоки с простейшей валидацией полей Email и Password
 		*/
@@ -60,6 +80,7 @@ func (handler *AuthHandler) Login() http.HandlerFunc {
 			res.Json(w, "Email required", 402)
 			return
 		}
+
 		if payload.Password == "" {
 			res.Json(w, "Password required", 402)
 			return
